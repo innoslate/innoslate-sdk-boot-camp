@@ -1,12 +1,8 @@
 package boot.innoslate.test;
 
 import boot.innoslate.core.InnoslateRemote;
-import jxl.Workbook;
-import jxl.format.Alignment;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.write.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -15,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Advance {
   @Test
@@ -31,23 +30,36 @@ public class Advance {
    * Shows how to create an Excel document for reports
    */
   @Test
-  public void writeToExcel() throws IOException, WriteException {
-    File file = new File("Output/excel.xls");
-    WritableWorkbook workbook = Workbook.createWorkbook(file);
-    WritableSheet sheet = workbook.createSheet("Innoslate Excel's Sheet", 0);
+  public void writeToExcel() throws IOException {
+    XSSFWorkbook workbook = new XSSFWorkbook();
+    XSSFSheet sheet = workbook.createSheet("Innoslate Excel's Sheet");
 
-    WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 11, WritableFont.NO_BOLD);
-    WritableCellFormat headerCellFormat = new WritableCellFormat(headerFont);
-    headerCellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-    headerCellFormat.setAlignment(Alignment.CENTRE);
-    headerCellFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
-    headerCellFormat.setWrap(true);
+    //Adding values to the sheet
+    Row row = sheet.createRow(0);
+    //Cell row 0, column 0
+    Cell cell = row.createCell(0);
+    cell.setCellValue("Testing");
+    //Cell row 0, column 1
+    cell = row.createCell(1);
+    cell.setCellValue("Cell Creation");
+    //Cell row 0, column 2
+    cell = row.createCell(2);
+    cell.setCellValue("in a excel document");
+    //Setting up cell style's
+    CellStyle style = workbook.createCellStyle();
+    XSSFFont font = workbook.createFont();
+    font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
+//    font.setItalic(true);
+//    font.setBold(true);
+//    font.setUnderline(FontUnderline.SINGLE);
+    font.setFontHeightInPoints((short) 22);
+    style.setFont(font);
+    cell.setCellStyle(style);
 
-
-    Label label = new Label(0, 0, "TEST", headerCellFormat);
-    sheet.addCell(label);
-
-    workbook.write();
+    //Output the workbook to a file saved in the Output folder
+    File file = new File("Output/excel.xlsx");
+    FileOutputStream fileOutputStream = new FileOutputStream(file);
+    workbook.write(fileOutputStream);
     workbook.close();
   }
 
