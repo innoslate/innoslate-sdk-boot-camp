@@ -16,7 +16,7 @@ public class Beginner extends InnoslateRemote {
    */
   @Test
   public void getSingleEntity() {
-    final int entityId = 0;
+    final int entityId = 0; //Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
     System.out.println("entities name's: " + entity.getName());
@@ -31,7 +31,7 @@ public class Beginner extends InnoslateRemote {
     final int limit = 10;
     final int offset = 0;
 
-    final String search = ""; //ie label:Activity OR label:Task
+    final String search = ""; //ie label:Activity OR Class:Action
 
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
     for(InnoEntity entity : entities) {
@@ -44,7 +44,7 @@ public class Beginner extends InnoslateRemote {
    */
   @Test
   public void getEntityAttributes() {
-    final int entityId = 0;
+    final int entityId = 0; //Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
     String name = entity.getName();
@@ -59,8 +59,16 @@ public class Beginner extends InnoslateRemote {
       Date startTime = (Date) entity.attributes().get("Start");
       Duration duration = (Duration) entity.attributes().get("Duration");
 
-      System.out.println("Entity startTime: " + startTime.toString());
-      System.out.println("Entity duration: " + duration.getValue() + " " + duration.getUnits());
+      if(startTime != null) {
+        System.out.println("Entity startTime: " + startTime.toString());
+      } else {
+        System.out.println("Entity has no start");
+      }
+      if(duration != null) {
+        System.out.println("Entity duration: " + duration.getValue() + " " + duration.getUnits());
+      } else {
+        System.out.println("Entity has no duration");
+      }
     }
   }
 
@@ -69,10 +77,10 @@ public class Beginner extends InnoslateRemote {
    */
   @Test
   public void getEntityRelationships() {
-    final int entityId = 0;
+    final int entityId = 0; //Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
-    //get all the entity's parents
+    //Gets all the entity's parents
     for(InnoEntity.EntityRelationship rel : entity.relationships().any("decomposes")) {
       InnoEntity parent = rel.getTarget();
       if(parent != null) {
@@ -80,7 +88,7 @@ public class Beginner extends InnoslateRemote {
       }
     }
 
-    //get all the relationship attributes
+    //Gets all the relationship attributes
     //Entity needs to be an Action
     for(InnoEntity.EntityRelationship rel : entity.relationships().any("consumes")) {
       InnoEntity resource = rel.getTarget();

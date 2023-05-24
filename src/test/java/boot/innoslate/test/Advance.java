@@ -11,15 +11,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Advance {
   @Test
   public void createNewProject() {
-    final String projectName = "";
-    final String projectDescription = "";
+    final String projectName = "Create me so I can Die";
+    final String projectDescription = "Testing project creation";
 
     InnoslateRemote.createNewProject(projectName, projectDescription);
 
@@ -69,21 +66,29 @@ public class Advance {
    */
   @Test
   public void writeToWordDoc() throws IOException {
+    //Create the Word docx
     XWPFDocument document = new XWPFDocument();
+
+    //Create a paragraph
     XWPFParagraph paragraph = document.createParagraph();
+    //Create a run to enter text
     XWPFRun run = paragraph.createRun();
     run.setText("This is the first line!\r");
     run.addBreak();
     run.setFontSize(18);
 
+    //Create a run to enter text
     XWPFRun run2 = paragraph.createRun();
     run2.setText("This is second line.");
     run2.setBold(true);
 
+    //Create a paragraph
     XWPFParagraph paragraph2 = document.createParagraph();
+    //Create a run to enter text
     XWPFRun run3 = paragraph2.createRun();
     run3.setText("This is third line. In a new paragraph");
 
+    //Output the Word docx to a file saved in the Output folder
     FileOutputStream fos = new FileOutputStream(new File("Output/word.doc"));
     document.write(fos);
     document.close();
@@ -95,7 +100,7 @@ public class Advance {
    */
   @Test
   public void deleteProject() {
-    final int projectId = 0;
+    final int projectId = 0; //Project ID of the project that will be deleted
 
     InnoslateRemote.deleteProject(projectId);
   }
