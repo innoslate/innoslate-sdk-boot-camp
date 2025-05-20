@@ -17,7 +17,7 @@ public abstract class InnoslateRemote {
   static {
     try {
       Auth auth;
-      if(System.getProperty("innoslate-user-api-key") != null) {
+      if (System.getProperty("innoslate-user-api-key") != null) {
         auth = AuthFactory.withSecureAuthenticationKey(System.getProperty("innoslate-sdk-domain"),
           System.getProperty("innoslate-user-api-key"), System.getProperty("innoslate-cloud-api-key"),
           System.getProperty("innoslate-user-api-salt"), System.getProperty("innoslate-cloud-api-salt"));
@@ -35,7 +35,7 @@ public abstract class InnoslateRemote {
   public static void createNewProject(String name, String description) {
     InnoProject project = ds.projects().create();
     project.setName(name);
-    if(description == null) {
+    if (description == null) {
       description = "Generated from SDK";
     }
     project.setDescription(description);
@@ -44,7 +44,7 @@ public abstract class InnoslateRemote {
 
   public static void deleteProject(int projectId) {
     InnoProject project = ds.projects().get(projectId);
-    if(project != null) {
+    if (project != null) {
       ds.projects().remove(project);
     }
   }

@@ -20,20 +20,20 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void addLabelToEntity() {
-    final int entityId = 0; //Replace 0 with Entity ID
-    final String labelName = ""; //Add a label from the entity's class
+    final int entityId = 0; // Replace 0 with Entity ID
+    final String labelName = ""; // Add a label from the entity's class
 
     InnoEntity entity = ds.entities().get(entityId);
     InnoLabel label = ds.getSchema(PROJECT_ID).labels().getByName(labelName);
 
-    if(label != null) {
+    if (label != null) {
       entity.labels().add(label);
       ds.entities().save(Collections.singletonList(entity));
     }
   }
 
   /**
-   * Creates an innoslate entity
+   * Creates an Innoslate entity
    */
   @Test
   public void createEntity() {
@@ -42,30 +42,30 @@ public class Intermediate extends InnoslateRemote {
     InnoEntity entity = entityList.get(0);
     entity.setProjectId(PROJECT_ID);
 
-    final String clazz = ""; //Pick a class name
-    final String name = ""; //Pick a name for the new entity
-    final String number = ""; //Pick a number for the new entity
+    final String clazz = ""; // Pick a class name
+    final String name = ""; // Pick a name for the new entity
+    final String number = ""; // Pick a number for the new entity
     entity.setInnoClass(clazz).setName(name).setNumber(number);
 
     ds.entities().save(Collections.singletonList(entity));
   }
 
   /**
-   * Adds an relationship to two innoslate entities
+   * Adds a relationship between two Innoslate entities
    */
   @Test
   public void addRelationship() {
-    final int actionId = 0; //Replace 0 with Action's entity ID
+    final int actionId = 0; // Replace 0 with Action's entity ID
     InnoEntity action = ds.entities().get(actionId);
 
     final int limit = 10;
     final int offset = 0;
-    final String search = ""; //Add class:Asset
+    final String search = ""; // Add class:Asset
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
 
-    if(entities.size() > 0 && action != null) {
+    if (!entities.isEmpty() && action != null) {
       InnoEntity asset = entities.get(0);
-      final String relationshipName = ""; //Add performs
+      final String relationshipName = ""; // Add performs
       asset.relationships().addByName(relationshipName, action);
 
       ds.entities().save(new ArrayList<>(Arrays.asList(asset, action)));
@@ -78,18 +78,18 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void removeRelationship() {
-    final int actionId = 0; //Replace 0 with Action's entity ID
+    final int actionId = 0; // Replace 0 with Action's entity ID
     InnoEntity action = ds.entities().get(actionId);
 
     final int limit = 10;
     final int offset = 0;
-    final String search = ""; //Add class:Asset
+    final String search = ""; // Add class:Asset
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
 
-    if(entities.size() > 0) {
+    if (!entities.isEmpty()) {
       InnoEntity asset = entities.get(0);
-      boolean success = asset.relationships().remove("", action); //Add performs
-      System.out.println("success: " + success); //True if the relationship was successfully removed, false otherwise
+      boolean success = asset.relationships().remove("", action); // Add performs
+      System.out.println("success: " + success); // True if the relationship was successfully removed, false otherwise
       ds.entities().save(new ArrayList<>(Arrays.asList(asset, action)));
     }
   }
@@ -99,7 +99,7 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void querySchemaClasses() {
-    for(InnoClass clazz : ds.getSchema(PROJECT_ID).classes().all()) {
+    for (InnoClass clazz : ds.getSchema(PROJECT_ID).classes().all()) {
       System.out.println("Class name: " + clazz.getName());
     }
   }
@@ -109,8 +109,8 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void addImageToEntity() throws IOException {
-    final String pictureName = ""; //Picture name with extension
-    final String picturePath = ""; //Absolute file path
+    final String pictureName = ""; // Picture name with extension
+    final String picturePath = ""; // Absolute file path
 
     InputStream is = Files.newInputStream(Paths.get(picturePath));
     String imageId = oss.create(PROJECT_ID, pictureName, is);
@@ -119,8 +119,8 @@ public class Intermediate extends InnoslateRemote {
     InnoEntity entity = entityList.get(0);
     entity.setProjectId(PROJECT_ID);
 
-    final String clazz = ""; //Pick a name for the new entity
-    final String name = ""; //Pick a number for the new entity
+    final String clazz = ""; // Pick a name for the new entity
+    final String name = ""; // Pick a number for the new entity
     entity.setInnoClass(clazz).setName(name);
     entity.setImageId(imageId);
 
@@ -132,8 +132,8 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void addFileToEntity() throws IOException {
-    final String fileName = ""; //File name with extension
-    final String filePath = ""; //Absolute file path
+    final String fileName = ""; // File name with extension
+    final String filePath = ""; // Absolute file path
 
     InputStream is = Files.newInputStream(Paths.get(filePath));
     String fileId = oss.create(PROJECT_ID, fileName, is);
@@ -142,7 +142,7 @@ public class Intermediate extends InnoslateRemote {
     entity.setProjectId(PROJECT_ID);
 
     final String clazz = "Artifact";
-    final String name = ""; //Pick a number for the new entity
+    final String name = ""; // Pick a number for the new entity
 
     entity.setInnoClass(clazz).setName(name);
     entity.attributes().set("File", fileId);

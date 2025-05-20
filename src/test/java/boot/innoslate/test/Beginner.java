@@ -12,16 +12,15 @@ import java.util.List;
 
 public class Beginner extends InnoslateRemote {
   /**
-   * Returns a single entity. Entity must already exist within database
+   * Returns a single entity. Entity must already exist within the database.
    */
   @Test
   public void getSingleEntity() {
-    final int entityId = 0; //Replace 0 with Entity ID
+    final int entityId = 0; // Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
-    System.out.println("entities name's: " + entity.getName());
+    System.out.println("entity's name: " + entity.getName());
   }
-
 
   /**
    * Search the database for search string
@@ -30,11 +29,10 @@ public class Beginner extends InnoslateRemote {
   public void searchForEntities() {
     final int limit = 10;
     final int offset = 0;
-
-    final String search = ""; //ie label:Activity OR Class:Action
+    final String search = ""; // i.e. label:Activity OR Class:Action
 
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
-    for(InnoEntity entity : entities) {
+    for (InnoEntity entity : entities) {
       System.out.println("Entity name: " + entity.getName());
     }
   }
@@ -44,7 +42,7 @@ public class Beginner extends InnoslateRemote {
    */
   @Test
   public void getEntityAttributes() {
-    final int entityId = 0; //Replace 0 with Entity ID
+    final int entityId = 0; // Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
     String name = entity.getName();
@@ -55,16 +53,16 @@ public class Beginner extends InnoslateRemote {
     System.out.println("Entity number: " + number);
     System.out.println("Entity description: " + description);
 
-    if(entity.instanceOf("Action")) {
+    if (entity.instanceOf("Action")) {
       Date startTime = (Date) entity.attributes().get("Start");
       Duration duration = (Duration) entity.attributes().get("Duration");
 
-      if(startTime != null) {
-        System.out.println("Entity startTime: " + startTime.toString());
+      if (startTime != null) {
+        System.out.println("Entity startTime: " + startTime);
       } else {
         System.out.println("Entity has no start");
       }
-      if(duration != null) {
+      if (duration != null) {
         System.out.println("Entity duration: " + duration.getValue() + " " + duration.getUnits());
       } else {
         System.out.println("Entity has no duration");
@@ -77,22 +75,22 @@ public class Beginner extends InnoslateRemote {
    */
   @Test
   public void getEntityRelationships() {
-    final int entityId = 0; //Replace 0 with Entity ID
+    final int entityId = 0; // Replace 0 with Entity ID
     InnoEntity entity = ds.entities().get(entityId);
 
-    //Gets all the entity's parents
-    for(InnoEntity.EntityRelationship rel : entity.relationships().any("decomposes")) {
+    // Gets all the entity's parents
+    for (InnoEntity.EntityRelationship rel : entity.relationships().any("decomposes")) {
       InnoEntity parent = rel.getTarget();
-      if(parent != null) {
+      if (parent != null) {
         System.out.println("Entity's parent name: " + parent.getName());
       }
     }
 
-    //Gets all the relationship attributes
-    //Entity needs to be an Action
-    for(InnoEntity.EntityRelationship rel : entity.relationships().any("consumes")) {
+    // Gets all the relationship attributes
+    // Entity needs to be an Action
+    for (InnoEntity.EntityRelationship rel : entity.relationships().any("consumes")) {
       InnoEntity resource = rel.getTarget();
-      if(resource != null) {
+      if (resource != null) {
         Object amount = rel.attributes().get("Amount");
         System.out.println(entity.getName() + " will consume this amount: " + amount.toString() + " of " + resource.getName());
       }
