@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Intermediate extends InnoslateRemote {
+public class IntermediateTest extends InnoslateRemote {
   /**
    * Adds a label to an entity
    */
@@ -68,7 +68,7 @@ public class Intermediate extends InnoslateRemote {
       final String relationshipName = ""; // Add performs
       asset.relationships().addByName(relationshipName, action);
 
-      ds.entities().save(new ArrayList<>(Arrays.asList(asset, action)));
+      ds.entities().save(Arrays.asList(asset, action));
     }
   }
 
@@ -90,7 +90,7 @@ public class Intermediate extends InnoslateRemote {
       InnoEntity asset = entities.get(0);
       boolean success = asset.relationships().remove("", action); // Add performs
       System.out.println("success: " + success); // True if the relationship was successfully removed, false otherwise
-      ds.entities().save(new ArrayList<>(Arrays.asList(asset, action)));
+      ds.entities().save(Arrays.asList(asset, action));
     }
   }
 
@@ -109,8 +109,8 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void addImageToEntity() throws IOException {
-    final String pictureName = ""; // Picture name with extension
-    final String picturePath = ""; // Absolute file path
+    final String pictureName = ""; // Picture name with extension (i.e. "image.png")
+    final String picturePath = ""; // Absolute file path (i.e. "C:/Users/MyUser/Pictures/image.png")
 
     InputStream is = Files.newInputStream(Paths.get(picturePath));
     String imageId = oss.create(PROJECT_ID, pictureName, is);
@@ -119,8 +119,8 @@ public class Intermediate extends InnoslateRemote {
     InnoEntity entity = entityList.get(0);
     entity.setProjectId(PROJECT_ID);
 
-    final String clazz = ""; // Pick a name for the new entity
-    final String name = ""; // Pick a number for the new entity
+    final String clazz = ""; // Pick a class for the new entity
+    final String name = ""; // Pick a name for the new entity
     entity.setInnoClass(clazz).setName(name);
     entity.setImageId(imageId);
 
@@ -132,8 +132,8 @@ public class Intermediate extends InnoslateRemote {
    */
   @Test
   public void addFileToEntity() throws IOException {
-    final String fileName = ""; // File name with extension
-    final String filePath = ""; // Absolute file path
+    final String fileName = ""; // File name with extension (i.e. "file.docx")
+    final String filePath = ""; // Absolute file path (i.e. "C:/Users/MyUser/Documents/file.docx")
 
     InputStream is = Files.newInputStream(Paths.get(filePath));
     String fileId = oss.create(PROJECT_ID, fileName, is);
@@ -142,7 +142,7 @@ public class Intermediate extends InnoslateRemote {
     entity.setProjectId(PROJECT_ID);
 
     final String clazz = "Artifact";
-    final String name = ""; // Pick a number for the new entity
+    final String name = ""; // Pick a name for the new entity
 
     entity.setInnoClass(clazz).setName(name);
     entity.attributes().set("File", fileId);

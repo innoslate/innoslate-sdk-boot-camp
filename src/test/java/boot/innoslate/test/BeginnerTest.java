@@ -10,7 +10,7 @@ import sdk.innoslate.db.models.InnoEntity;
 import java.util.Date;
 import java.util.List;
 
-public class Beginner extends InnoslateRemote {
+public class BeginnerTest extends InnoslateRemote {
   /**
    * Returns a single entity. Entity must already exist within the database.
    */
@@ -29,7 +29,7 @@ public class Beginner extends InnoslateRemote {
   public void searchForEntities() {
     final int limit = 10;
     final int offset = 0;
-    final String search = ""; // i.e. label:Activity OR Class:Action
+    final String search = ""; // i.e. label:Activity OR class:Action
 
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
     for (InnoEntity entity : entities) {
@@ -55,13 +55,13 @@ public class Beginner extends InnoslateRemote {
 
     if (entity.instanceOf("Action")) {
       Date startTime = (Date) entity.attributes().get("Start");
-      Duration duration = (Duration) entity.attributes().get("Duration");
-
       if (startTime != null) {
         System.out.println("Entity startTime: " + startTime);
       } else {
         System.out.println("Entity has no start");
       }
+
+      Duration duration = (Duration) entity.attributes().get("Duration");
       if (duration != null) {
         System.out.println("Entity duration: " + duration.getValue() + " " + duration.getUnits());
       } else {

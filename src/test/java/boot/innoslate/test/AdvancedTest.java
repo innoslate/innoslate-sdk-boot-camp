@@ -12,13 +12,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Advanced {
+public class AdvancedTest {
   @Test
   public void createNewProject() {
-    final String projectName = "Create me so I can be deleted";
-    final String projectDescription = "Testing project creation";
+    final String projectName = ""; // Pick a name for the new project (i.e. "Create Me to Delete Me")
+    final String projectDescription = ""; // Pick a description for the new project (i.e. "Testing project creation")
+    final String projectFolder = ""; // Pick a folder name for the new project (i.e. "Default")
 
-    InnoslateRemote.createNewProject(projectName, projectDescription);
+    InnoslateRemote.createNewProject(projectName, projectDescription, projectFolder);
 
     // Create entities in your project
   }
@@ -29,7 +30,7 @@ public class Advanced {
   @Test
   public void writeToExcel() throws IOException {
     XSSFWorkbook workbook = new XSSFWorkbook();
-    XSSFSheet sheet = workbook.createSheet("Innoslate Excel's Sheet");
+    XSSFSheet sheet = workbook.createSheet("Innoslate Excel Sheet");
 
     // Adding values to the sheet
     Row row = sheet.createRow(0);
@@ -41,7 +42,7 @@ public class Advanced {
     cell.setCellValue("Cell Creation");
     // Cell row 0, column 2
     cell = row.createCell(2);
-    cell.setCellValue("in a excel document");
+    cell.setCellValue("in an excel document");
     // Setting up cell styles
     CellStyle style = workbook.createCellStyle();
     XSSFFont font = workbook.createFont();
@@ -54,9 +55,12 @@ public class Advanced {
     style.setFont(font);
     cell.setCellStyle(style);
 
-    // Output the workbook to a file saved in the Output folder
-    File file = new File("Output/excel.xlsx");
-    FileOutputStream fileOutputStream = new FileOutputStream(file);
+    // Output the workbook to a file saved in the "output" folder
+    File xlsxFile = new File("output/excel.xlsx");
+    if (!xlsxFile.getParentFile().exists()) {
+      xlsxFile.getParentFile().mkdirs();
+    }
+    FileOutputStream fileOutputStream = new FileOutputStream(xlsxFile);
     workbook.write(fileOutputStream);
     workbook.close();
   }
@@ -72,32 +76,38 @@ public class Advanced {
 
     // Create a paragraph
     XWPFParagraph paragraph = document.createParagraph();
+
     // Create a run to enter text
     XWPFRun run = paragraph.createRun();
-    run.setText("This is the first line!\r");
+    run.setText("This is the first line!\n");
     run.addBreak();
     run.setFontSize(18);
 
     // Create a run to enter text
     XWPFRun run2 = paragraph.createRun();
-    run2.setText("This is second line.");
+    run2.setText("This is the second line.");
     run2.setBold(true);
 
     // Create a paragraph
     XWPFParagraph paragraph2 = document.createParagraph();
+
     // Create a run to enter text
     XWPFRun run3 = paragraph2.createRun();
-    run3.setText("This is third line. In a new paragraph");
+    run3.setText("This is the third line...in a new paragraph!");
 
-    // Output the Word docx to a file saved in the Output folder
-    FileOutputStream fos = new FileOutputStream("Output/word.doc");
+    // Output the Word docx to a file saved in the "output" folder
+    File docxFile = new File("output/word.docx");
+    if (!docxFile.getParentFile().exists()) {
+      docxFile.getParentFile().mkdirs();
+    }
+    FileOutputStream fos = new FileOutputStream(docxFile);
     document.write(fos);
     document.close();
     fos.close();
   }
 
   /**
-   * Deletes a innoslate project
+   * Deletes an Innoslate project
    */
   @Test
   public void deleteProject() {
