@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
   // Innoslate SDK Jar File
-  testImplementation fileTree(dir: 'libs', include: 'innoslate4x-java-sdk.jar')
+  testImplementation files('libs/innoslate4x-java-sdk.jar')
   testImplementation 'org.junit.jupiter:junit-jupiter:5.12.2'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
   testImplementation 'org.apache.poi:poi-ooxml:5.4.1'
