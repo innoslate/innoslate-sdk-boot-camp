@@ -28,15 +28,25 @@ tasks.withType(Test).configureEach {
   useJUnitPlatform()
   systemProperties += System.properties
   // Assign default values to Innoslate SDK System Properties and add them to the test system properties
-  systemProperty("username", project.properties.getOrDefault("username", null) as String)
-  systemProperty("password", project.properties.getOrDefault("password", null) as String)
-  systemProperty("innoslateSDKDomain", project.properties.getOrDefault("innoslateSDKDomain", "") as String)
-  systemProperty("innoslateUserApiKey", project.properties.getOrDefault("innoslateUserApiKey", null) as String)
-  systemProperty("innoslateUserApiSalt", project.properties.getOrDefault("innoslateUserApiSalt", null) as String)
-  systemProperty("innoslateCloudApiKey", project.properties.getOrDefault("innoslateCloudApiKey", null) as String)
-  systemProperty("innoslateCloudApiSalt", project.properties.getOrDefault("innoslateCloudApiSalt", null) as String)
-  systemProperty("innoslateOrganizationSlug", project.properties.get("innoslateOrganizationSlug") as String)
-  systemProperty("innoslateProjectId", project.properties.getOrDefault("innoslateProjectId", 0) as Integer)
+  String username = project.properties.get("username")
+  String password = project.properties.get("password")
+  String innoslateSDKDomain = project.properties.getOrDefault("innoslateSDKDomain", "")
+  String innoslateUserApiKey = project.properties.get("innoslateUserApiKey")
+  String innoslateUserApiSalt = project.properties.get("innoslateUserApiSalt")
+  String innoslateCloudApiKey = project.properties.get("innoslateCloudApiKey")
+  String innoslateCloudApiSalt = project.properties.get("innoslateCloudApiSalt")
+  String innoslateOrganizationSlug = project.properties.getOrDefault("innoslateOrganizationSlug", "")
+  int innoslateProjectId = project.properties.getOrDefault("innoslateProjectId", 0) as Integer
+
+  if (username != null) systemProperty("username", username)
+  if (password != null) systemProperty("password", password)
+  systemProperty("innoslateSDKDomain", innoslateSDKDomain)
+  if (innoslateUserApiKey != null) systemProperty("innoslateUserApiKey", innoslateUserApiKey)
+  if (innoslateUserApiSalt != null) systemProperty("innoslateUserApiSalt", innoslateUserApiSalt)
+  if (innoslateCloudApiKey != null) systemProperty("innoslateCloudApiKey", innoslateCloudApiKey)
+  if (innoslateCloudApiSalt != null) systemProperty("innoslateCloudApiSalt", innoslateCloudApiSalt)
+  systemProperty("innoslateOrganizationSlug", innoslateOrganizationSlug)
+  systemProperty("innoslateProjectId", innoslateProjectId)
 }
 
 jar {
