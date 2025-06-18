@@ -9,21 +9,21 @@ import sdk.innoslate.storage.ObjectStorageService;
 import sdk.innoslate.storage.ObjectStorageServiceFactory;
 
 public abstract class InnoslateRemote {
-  public static final int PROJECT_ID = Integer.parseInt(System.getProperty("innoslate-project-id"));
-  public static final String SLUG = System.getProperty("innoslate-organization-slug");
+  public static final int PROJECT_ID = Integer.parseInt(System.getProperty("innoslateProjectId"));
+  public static final String SLUG = System.getProperty("innoslateOrganizationSlug");
   public static DatabaseService ds;
   public static ObjectStorageService oss;
 
   static {
     try {
       Auth auth;
-      if(System.getProperty("innoslate-user-api-key") != null) {
-        auth = AuthFactory.withSecureAuthenticationKey(System.getProperty("innoslate-sdk-domain"),
-          System.getProperty("innoslate-user-api-key"), System.getProperty("innoslate-cloud-api-key"),
-          System.getProperty("innoslate-user-api-salt"), System.getProperty("innoslate-cloud-api-salt"));
+      if (System.getProperty("innoslateUserApiKey") != null) {
+        auth = AuthFactory.withSecureAuthenticationKey(System.getProperty("innoslateSDKDomain"),
+          System.getProperty("innoslateUserApiKey"), System.getProperty("innoslateCloudApiKey"),
+          System.getProperty("innoslateUserApiSalt"), System.getProperty("innoslateCloudApiSalt"));
       } else {
-        auth = AuthFactory.withUsernamePassword(System.getProperty("innoslate-sdk-domain"),
-          System.getProperty("username"), System.getProperty("password"), System.getProperty("innoslate-cloud-api-key"));
+        auth = AuthFactory.withUsernamePassword(System.getProperty("innoslateSDKDomain"),
+          System.getProperty("username"), System.getProperty("password"), System.getProperty("innoslateCloudApiKey"));
       }
       ds = DatabaseServiceFactory.withOrganizationSlug(auth, SLUG);
       oss = ObjectStorageServiceFactory.withOrganizationSlug(auth, SLUG);
@@ -32,19 +32,20 @@ public abstract class InnoslateRemote {
     }
   }
 
-  public static void createNewProject(String name, String description) {
+  public static void createNewProject(String name, String description, String folder) {
     InnoProject project = ds.projects().create();
     project.setName(name);
-    if(description == null) {
+    if (description == null) {
       description = "Generated from SDK";
     }
     project.setDescription(description);
+    project.setFolder(folder);
     ds.projects().save(project);
   }
 
   public static void deleteProject(int projectId) {
     InnoProject project = ds.projects().get(projectId);
-    if(project != null) {
+    if (project != null) {
       ds.projects().remove(project);
     }
   }

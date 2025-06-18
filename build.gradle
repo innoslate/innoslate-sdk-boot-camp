@@ -1,0 +1,54 @@
+plugins {
+  id 'java'
+}
+
+group = 'boot.innoslate.test'
+version = '4.x.x'
+
+tasks.withType(JavaCompile).configureEach {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+  options.encoding = 'UTF-8'
+  options.deprecation = true
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // Innoslate SDK Jar File
+  testImplementation files('libs/innoslate4x-java-sdk.jar')
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.13.1'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation 'org.apache.poi:poi-ooxml:5.4.1'
+}
+
+tasks.withType(Test).configureEach {
+  useJUnitPlatform()
+  systemProperties += System.properties
+  // Assign default values to Innoslate SDK System Properties and add them to the test system properties
+  String username = project.properties.get("username")
+  String password = project.properties.get("password")
+  String innoslateSDKDomain = project.properties.getOrDefault("innoslateSDKDomain", "")
+  String innoslateUserApiKey = project.properties.get("innoslateUserApiKey")
+  String innoslateUserApiSalt = project.properties.get("innoslateUserApiSalt")
+  String innoslateCloudApiKey = project.properties.get("innoslateCloudApiKey")
+  String innoslateCloudApiSalt = project.properties.get("innoslateCloudApiSalt")
+  String innoslateOrganizationSlug = project.properties.getOrDefault("innoslateOrganizationSlug", "")
+  int innoslateProjectId = project.properties.getOrDefault("innoslateProjectId", 0) as Integer
+
+  if (username != null) systemProperty("username", username)
+  if (password != null) systemProperty("password", password)
+  systemProperty("innoslateSDKDomain", innoslateSDKDomain)
+  if (innoslateUserApiKey != null) systemProperty("innoslateUserApiKey", innoslateUserApiKey)
+  if (innoslateUserApiSalt != null) systemProperty("innoslateUserApiSalt", innoslateUserApiSalt)
+  if (innoslateCloudApiKey != null) systemProperty("innoslateCloudApiKey", innoslateCloudApiKey)
+  if (innoslateCloudApiSalt != null) systemProperty("innoslateCloudApiSalt", innoslateCloudApiSalt)
+  systemProperty("innoslateOrganizationSlug", innoslateOrganizationSlug)
+  systemProperty("innoslateProjectId", innoslateProjectId)
+}
+
+jar {
+  enabled = false
+}
