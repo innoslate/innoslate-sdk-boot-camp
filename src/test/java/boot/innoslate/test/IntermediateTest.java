@@ -42,7 +42,7 @@ public class IntermediateTest extends InnoslateRemote {
     InnoEntity entity = entityList.get(0);
     entity.setProjectId(PROJECT_ID);
 
-    final String clazz = ""; // Pick a class name
+    final String clazz = ""; // Pick a class name (Use Asset)
     final String name = ""; // Pick a name for the new entity
     final String number = ""; // Pick a number for the new entity
     entity.setInnoClass(clazz).setName(name).setNumber(number);

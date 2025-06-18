@@ -67,7 +67,7 @@ public class AdvancedTest {
 
   /**
    * Shows how to create a Word document for reports
-   * More Information can be found here <a href="https://www.tutorialspoint.com/apache_poi_word/apache_poi_word_quick_guide.htm">...</a>
+   * More Information can be found here: https://www.tutorialspoint.com/apache_poi_word/apache_poi_word_quick_guide.htm
    */
   @Test
   public void writeToWordDoc() throws IOException {
