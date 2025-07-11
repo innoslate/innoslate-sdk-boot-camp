@@ -1,3 +1,5 @@
+[![Gradle Validation](https://github.com/innoslate/innoslate-sdk-boot-camp/actions/workflows/gradle.yml/badge.svg?branch=master)](https://github.com/innoslate/innoslate-sdk-boot-camp/actions/workflows/gradle.yml)
+
 # Innoslate SDK Bootcamp
 
 ## Generating Authentication Token
