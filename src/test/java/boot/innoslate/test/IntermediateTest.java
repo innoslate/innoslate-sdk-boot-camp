@@ -39,7 +39,7 @@ public class IntermediateTest extends InnoslateRemote {
   public void createEntity() {
     List<InnoEntity> entityList = ds.entities().create(1);
 
-    InnoEntity entity = entityList.get(0);
+    InnoEntity entity = entityList.getFirst();
     entity.setProjectId(PROJECT_ID);
 
     final String clazz = ""; // Pick a class name (Use Asset)
@@ -64,7 +64,7 @@ public class IntermediateTest extends InnoslateRemote {
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
 
     if (!entities.isEmpty() && action != null) {
-      InnoEntity asset = entities.get(0);
+      InnoEntity asset = entities.getFirst();
       final String relationshipName = ""; // Add performs
       asset.relationships().addByName(relationshipName, action);
 
@@ -87,7 +87,7 @@ public class IntermediateTest extends InnoslateRemote {
     List<? extends InnoEntity> entities = ds.entities().search(search, limit, offset, PROJECT_ID);
 
     if (!entities.isEmpty()) {
-      InnoEntity asset = entities.get(0);
+      InnoEntity asset = entities.getFirst();
       boolean success = asset.relationships().remove("", action); // Add performs
       System.out.println("success: " + success); // True if the relationship was successfully removed, false otherwise
       ds.entities().save(Arrays.asList(asset, action));
@@ -116,7 +116,7 @@ public class IntermediateTest extends InnoslateRemote {
     String imageId = oss.create(PROJECT_ID, pictureName, is);
 
     List<InnoEntity> entityList = ds.entities().create(1);
-    InnoEntity entity = entityList.get(0);
+    InnoEntity entity = entityList.getFirst();
     entity.setProjectId(PROJECT_ID);
 
     final String clazz = ""; // Pick a class for the new entity
@@ -138,7 +138,7 @@ public class IntermediateTest extends InnoslateRemote {
     InputStream is = Files.newInputStream(Paths.get(filePath));
     String fileId = oss.create(PROJECT_ID, fileName, is);
 
-    InnoEntity entity = ds.entities().create(1).get(0);
+    InnoEntity entity = ds.entities().create(1).getFirst();
     entity.setProjectId(PROJECT_ID);
 
     final String clazz = "Artifact";
