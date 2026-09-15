@@ -20,24 +20,23 @@ repositories {
 dependencies {
   // Innoslate SDK Jar File
   testImplementation files('libs/innoslate4x-java-sdk.jar')
-  testImplementation 'org.junit.jupiter:junit-jupiter:6.0.3'
+  testImplementation 'org.junit.jupiter:junit-jupiter:6.1.3'
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
   testImplementation 'org.apache.poi:poi-ooxml:5.5.1'
 }
 
 tasks.withType(Test).configureEach {
   useJUnitPlatform()
-  systemProperties += System.properties
   // Assign default values to Innoslate SDK System Properties and add them to the test system properties
-  String username = project.properties.get("username")
-  String password = project.properties.get("password")
-  String innoslateSDKDomain = project.properties.getOrDefault("innoslateSDKDomain", "")
-  String innoslateUserApiKey = project.properties.get("innoslateUserApiKey")
-  String innoslateUserApiSalt = project.properties.get("innoslateUserApiSalt")
-  String innoslateCloudApiKey = project.properties.get("innoslateCloudApiKey")
-  String innoslateCloudApiSalt = project.properties.get("innoslateCloudApiSalt")
-  String innoslateOrganizationSlug = project.properties.getOrDefault("innoslateOrganizationSlug", "")
-  int innoslateProjectId = project.properties.getOrDefault("innoslateProjectId", 0) as Integer
+  String username = providers.gradleProperty("username").getOrNull()
+  String password = providers.gradleProperty("password").getOrNull()
+  String innoslateSDKDomain = providers.gradleProperty("innoslateSDKDomain").getOrElse("")
+  String innoslateUserApiKey = providers.gradleProperty("innoslateUserApiKey").getOrNull()
+  String innoslateUserApiSalt = providers.gradleProperty("innoslateUserApiSalt").getOrNull()
+  String innoslateCloudApiKey = providers.gradleProperty("innoslateCloudApiKey").getOrNull()
+  String innoslateCloudApiSalt = providers.gradleProperty("innoslateCloudApiSalt").getOrNull()
+  String innoslateOrganizationSlug = providers.gradleProperty("innoslateOrganizationSlug").getOrElse("")
+  int innoslateProjectId = providers.gradleProperty("innoslateProjectId").getOrElse("0").toInteger()
 
   if (username != null) systemProperty("username", username)
   if (password != null) systemProperty("password", password)
